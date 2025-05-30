@@ -1,0 +1,106 @@
+﻿@model DACN.Models.TbBlog
+
+@{
+    ViewData["Title"] = "Delete";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+
+<div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+        <div class="container-fluid">
+            <div class="row mb-2">
+                <div class="col-sm-6">
+                    <h1>Xóa bài viết</h1>
+                </div>
+                <div class="col-sm-6">
+                    <ol class="breadcrumb float-sm-right">
+                        <li class="breadcrumb-item"><a href="#">Home</a></li>
+                        <li class="breadcrumb-item active">General Form</li>
+                    </ol>
+                </div>
+            </div>
+        </div><!-- /.container-fluid -->
+    </section>
+    <!-- Main content -->
+    <section class="content">
+        <div class="container-fluid">
+            <div class="row">
+                <!-- left column -->
+                <div class="col-md-6">
+                    <!-- general form elements -->
+                    <div class="card card-primary">
+                        <div class="card-header">
+                            <h3 class="card-title">Xóa bài viết</h3>
+                        </div>
+                        <!-- /.card-header -->
+                        <!-- form start -->
+                            <div class="card-body">
+                                <div class="form-group">
+                                    <label for="exampleInputEmail">Tiêu đề:</label>
+                                    @Html.DisplayFor(model => model.Title)
+                                </div>
+                                <div class="form-group">
+                                    <label for="exampleInputEmail">Alias:</label>
+                                    @Html.DisplayFor(model => model.Alias)
+                                </div>
+                                <div class="form-group">
+                                    <label for="exampleInputEmail">Danh mục</label>
+                                    @Html.DisplayFor(model => model.Category.Title)
+                                </div>
+                                <div class="form-group">
+                                    <label for="exampleInputEmail">Mô tả:</label>
+                                    @Html.DisplayFor(model => model.Description)
+                                </div>
+                                <div class="form-group">
+                                    <label for="exampleInputEmail">Chi tiết</label>
+                                    @Html.DisplayFor(model => model.Detail)
+                                </div>
+                                <div class="form-group">
+                                    <label for="exampleInputEmail">Ảnh</label>
+                                    @Html.DisplayFor(model => model.Image)
+                                </div>
+                                <div class="form-group">
+                                    <label for="exampleInputEmail">Tiêu đề Seo</label>
+                                    @Html.DisplayFor(model => model.SeoTitle)
+                                </div>
+                                <div class="form-group">
+                                    <label for="exampleInputEmail">Mô tả Seo</label>
+                                    @Html.DisplayFor(model => model.SeoDescription)
+                                </div>
+                                <div class="form-group">
+                                    <label for="exampleInputEmail">Từ khóa Seo</label>
+                                    @Html.DisplayFor(model => model.SeoKeywords)
+                                </div>
+                                <div class="form-group">
+                                    <label for="exampleInputEmail">Tiêu đề Seo</label>
+                                    @Html.DisplayFor(model => model.CreatedDate)
+                                </div>
+                                <div class="form-group">
+                                    <label for="exampleInputEmail">Tiêu đề Seo</label>
+                                    @Html.DisplayFor(model => model.CreatedBy)
+                                </div>
+                                <div class="form-group">
+                                    <label for="exampleInputEmail">Tiêu đề Seo</label>
+                                    @Html.DisplayFor(model => model.ModifiedDate)
+                                </div>
+                                <div class="form-group">
+                                    <label for="exampleInputEmail">Tiêu đề Seo</label>
+                                    @Html.DisplayFor(model => model.ModifiedBy)
+                                </div>
+                                <div class="form-group">
+                                    <label for="exampleInputEmail">Hiện:</label>
+                                    @Html.DisplayFor(model => model.IsActive)
+                                </div>
+                                <form asp-action="Delete">
+                                    <input type="hidden" asp-for="BlogId" />
+                                    <input type="submit" value="Xóa" class="btn btn-danger" /> |
+                                    <a asp-action="Index" class="btn btn-primary">Quay lại</a>
+                                </form>
+                            </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>

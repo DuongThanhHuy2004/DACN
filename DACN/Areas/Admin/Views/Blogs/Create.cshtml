@@ -1,0 +1,124 @@
+﻿@model DACN.Models.TbBlog
+
+@{
+    ViewData["Title"] = "Create";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+@using DACN.Utilities;
+<div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+        <div class="container-fluid">
+            <div class="row mb-2">
+                <div class="col-sm-6">
+                    <h1>Thêm bài viết</h1>
+                </div>
+                <div class="col-sm-6">
+                    <ol class="breadcrumb float-sm-right">
+                        <li class="breadcrumb-item"><a href="#">Home</a></li>
+                        <li class="breadcrumb-item active">General Form</li>
+                    </ol>
+                </div>
+            </div>
+        </div><!-- /.container-fluid -->
+    </section>
+    <!-- Main content -->
+    <section class="content">
+        <div class="container-fluid">
+            <div class="row">
+                <!-- left column -->
+                <div class="col-md-6">
+                    <!-- general form elements -->
+                    <div class="card card-primary">
+                        <div class="card-header">
+                            <h3 class="card-title">Thêm bài viết</h3>
+                        </div>
+                        <!-- /.card-header -->
+                        <!-- form start -->
+                        <form asp-action="Create">
+                            <div class="card-body">
+                                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                                <div class="form-group">
+                                    <label asp-for="Title" class="control-label">Tiêu đề</label>
+                                    <input asp-for="Title" class="form-control" />
+                                    <span asp-validation-for="Title" class="text-danger"></span>
+                                </div>
+                                <div class="form-group">
+                                    <label asp-for="Alias" class="control-label"></label>
+                                    <input asp-for="Alias" class="form-control" />
+                                    <span asp-validation-for="Alias" class="text-danger"></span>
+                                </div>
+                                @if (Function._RoleId != 2)
+                                {
+                                    <div class="form-group">
+                                        <label asp-for="CategoryId" class="control-label">Danh mục</label>
+                                        <select asp-for="CategoryId" class="form-group" asp-items="ViewBag.CategoryId">
+                                            <option value="0" selected>--[Chọn danh mục]--</option>
+                                        </select>
+                                    </div>
+                                }
+                                <div class="form-group">
+                                    <label asp-for="Image" class="control-label">Ảnh</label>
+                                    <div class="input-group mb-3">
+                                        <div class="input-group-prepend">
+                                            <button type="button" class="btn btn-success" onclick="openDialog()">Chọn ảnh</button>
+                                        </div>
+                                        <input type="text" class="form-control" id="file_input" asp-for="Image" aria-describedby="button-addon2">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label asp-for="Description" class="control-label">Mô tả</label>
+                                    <input asp-for="Description" class="form-control" />
+                                    <span asp-validation-for="Description" class="text-danger"></span>
+                                </div>
+                                <div class="form-group">
+                                    <label asp-for="Detail" class="control-label">Chi tiết</label>
+                                    <textarea asp-for="Detail" class="form-control"></textarea>
+                                    <span asp-validation-for="Detail" class="text-danger"></span>
+                                </div>
+                                <div class="form-group">
+                                    <label asp-for="SeoTitle" class="control-label">Seo Title</label>
+                                    <input asp-for="SeoTitle" class="form-control" />
+                                    <span asp-validation-for="SeoTitle" class="text-danger"></span>
+                                </div>
+                                <div class="form-group">
+                                    <label asp-for="SeoDescription" class="control-label">Seo Description</label>
+                                    <input asp-for="SeoDescription" class="form-control" />
+                                    <span asp-validation-for="SeoDescription" class="text-danger"></span>
+                                </div>
+                                <div class="form-group">
+                                    <label asp-for="SeoKeywords" class="control-label">Seo Keywords</label>
+                                    <input asp-for="SeoKeywords" class="form-control" />
+                                    <span asp-validation-for="SeoKeywords" class="text-danger"></span>
+                                </div>
+                                <div class="form-group">
+                                    <label asp-for="CreatedDate" class="control-label">Ngày tạo</label>
+                                    <input asp-for="CreatedDate" class="form-control" />
+                                    <span asp-validation-for="SeoKeywords" class="text-danger"></span>
+                                </div>
+                                <div class="form-group">
+                                    <label asp-for="CreatedBy" class="control-label">Người tạo</label>
+                                    <input asp-for="CreatedBy" class="form-control" />
+                                    <span asp-validation-for="SeoKeywords" class="text-danger"></span>
+                                </div>
+                                <div class="form-group form-check">
+                                    <label class="form-check-label">
+                                        <input class="form-check-input" asp-for="IsActive" /> Hiển thị
+                                    </label>
+                                </div>
+                                <div class="form-group">
+                                    <input type="submit" value="Thêm mới" class="btn btn-primary" />
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+
+@{
+    var summerNote = new DACN.Areas.Admin.Models.SummerNote("#Detail");
+    <partial name="_SummerNote" model="summerNote" />
+}
