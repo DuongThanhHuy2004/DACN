@@ -1,5 +1,5 @@
 ﻿@model DACN.Models.TbBlog
-
+@using DACN.Utilities;
 @{
     ViewData["Title"] = "Edit";
     Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
@@ -37,6 +37,10 @@
                         <!-- form start -->
                         <form asp-action="Edit">
                             <input type="hidden" asp-for="BlogId" />
+                            <input type="hidden" asp-for="CreatedBy" />
+                            <input type="hidden" asp-for="CategoryId" />
+                            <input type="hidden" asp-for="Status" />
+                            <input type="hidden" asp-for="CreatedDate" />
                             <div class="card-body">
                                 <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                                 <input type="hidden" asp-for="CategoryId" />
@@ -98,11 +102,11 @@
                                     <input asp-for="ModifiedDate" class="form-control" />
                                     <span asp-validation-for="ModifiedDate" class="text-danger"></span>
                                 </div>
-                                <div class="form-group">
-                                    <label asp-for="ModifiedBy" class="control-label">Người sửa</label>
-                                    <input asp-for="ModifiedBy" class="form-control" />
-                                    <span asp-validation-for="ModifiedBy" class="text-danger"></span>
-                                </div>
+                                @* <div class="form-group"> *@
+                                @*     <label asp-for="ModifiedBy" class="control-label">Người sửa</label> *@
+                                    <input asp-for="ModifiedBy" hidden class="form-control" value="@Function._Username" />
+                                @*     <span asp-validation-for="ModifiedBy" class="text-danger"></span> *@
+                                @* </div> *@
                                 <div class="form-group form-check">
                                     <label class="form-check-label">
                                         <input class="form-check-input" asp-for="IsActive" /> Hiển thị

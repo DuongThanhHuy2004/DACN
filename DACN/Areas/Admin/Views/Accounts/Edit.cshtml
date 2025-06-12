@@ -1,0 +1,110 @@
+﻿@model DACN.Models.TbAccount
+@using DACN.Utilities;
+@{
+    ViewData["Title"] = "Edit";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+    bool showBlogManager = Function._RoleId == 1 && Model.RoleId == 2 && Model.AccountId != Function._AccountId;
+    bool isAdmin = Function._RoleId == 1;
+    bool isEditingSelf = Model.AccountId == Function._AccountId;
+    bool showRoleDropdown = isAdmin || !isEditingSelf;
+}
+
+<div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+        <div class="container-fluid">
+            <div class="row mb-2">
+                <div class="col-sm-6">
+                    <h1>Chỉnh sửa tài khoản</h1>
+                </div>
+                <div class="col-sm-6">
+                    <ol class="breadcrumb float-sm-right">
+                        <li class="breadcrumb-item"><a href="#">Home</a></li>
+                        <li class="breadcrumb-item active">General Form</li>
+                    </ol>
+                </div>
+            </div>
+        </div><!-- /.container-fluid -->
+    </section>
+
+    <!-- Main content -->
+    <section class="content">
+        <div class="container-fluid">
+            <div class="row">
+                <!-- left column -->
+                <div class="col-md-6">
+                    <!-- general form elements -->
+                    <div class="card card-primary">
+                        <div class="card-header">
+                            <h3 class="card-title">Chỉnh sửa tài khoản</h3>
+                        </div>
+                        <!-- /.card-header -->
+                        <!-- form start -->
+                        <form asp-action="Edit">
+                            <input type="hidden" asp-for="AccountId" />
+                            <input type="hidden" asp-for="Email" />
+                            <div class="card-body">
+                                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                                <div class="form-group">
+                                    <label asp-for="Password" class="control-label">Đặt lại mật khẩu</label>
+                                    <input asp-for="Password" class="form-control" type="password" autocomplete="new-password" value="" />
+                                    <span asp-validation-for="Password" class="text-danger"></span>
+                                </div>
+                                <div class="form-group">
+                                    <label asp-for="Username" class="control-label">Tên người dùng</label>
+                                    <input asp-for="Username" class="form-control" />
+                                    <span asp-validation-for="Username" class="text-danger"></span>
+                                </div>
+                                <div class="form-group">
+                                    <label asp-for="FullName" class="control-label">Họ và tên</label>
+                                    <input asp-for="FullName" class="form-control" />
+                                    <span asp-validation-for="FullName" class="text-danger"></span>
+                                </div>
+                                <div class="form-group">
+                                    <label asp-for="Phone" class="control-label">Số điện thoại</label>
+                                    <input asp-for="Phone" class="form-control" />
+                                    <span asp-validation-for="Phone" class="text-danger"></span>
+                                </div>
+                                @if (showRoleDropdown)
+                                {
+                                    <div class="form-group">
+                                        <label asp-for="RoleId" class="control-label">Quyền</label>
+                                        <select asp-for="RoleId" class="form-control" asp-items="@(ViewData["RoleId"] as SelectList)"></select>
+                                        <span asp-validation-for="RoleId" class="text-danger"></span>
+                                    </div>
+                                }
+                                else
+                                {
+                                    <input type="hidden" asp-for="RoleId" />
+                                }
+                                @if (showBlogManager)
+                                {
+                                    <div class="form-group">
+                                        <label asp-for="BlogManagerId" class="control-label">Danh mục quản lý</label>
+                                        <select asp-for="BlogManagerId" class="form-control" asp-items="@(ViewData["BlogManagerId"] as SelectList)"></select>
+                                        <span asp-validation-for="BlogManagerId" class="text-danger"></span>
+                                    </div>
+                                }
+                                <div class="form-group form-check">
+                                    <label class="form-check-label">
+                                    <input class="form-check-input" asp-for="IsActive" /> Hiển thị  
+                                    </label>
+                                </div>
+                  <div class="form-group">
+                      <input type="submit" value="Sửa" class="btn btn-primary" />
+                  </div>
+                </div>
+                <!-- /.card-body -->
+              </form>
+            </div>
+            <!-- /.card -->
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
+            
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

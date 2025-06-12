@@ -27,18 +27,41 @@ namespace DACN.Areas.Admin.Controllers
             {
                 return RedirectToAction("Index", "Login");
             }
-            var check = _context.TbAccounts.Where(m => m.AccountId == Function._AccountId).FirstOrDefault();
-            var dacnContext = _context.TbBlogs.Include(t => t.Account).Include(t => t.Category);
-            if (check.RoleId == 2)
+
+            var currentAccount = await _context.TbAccounts
+                .FirstOrDefaultAsync(m => m.AccountId == Function._AccountId);
+
+            IQueryable<TbBlog> blogsQuery = _context.TbBlogs
+                .Include(t => t.Account)
+                .Include(t => t.Category);
+
+            if (currentAccount != null)
             {
-                 dacnContext = _context.TbBlogs.Where(t => t.CategoryId == check.BlogManagerId).Include(t => t.Account).Include(t => t.Category);
+                if (currentAccount.RoleId == 1)
+                {
+                    // Admin: xem tất cả bài viết
+                    // Không cần lọc gì thêm
+                }
+                else if (currentAccount.RoleId == 2)
+                {
+                    // Quản lý danh mục: chỉ xem bài viết thuộc danh mục mình quản lý
+                    blogsQuery = blogsQuery.Where(b => b.CategoryId == currentAccount.BlogManagerId);
+                }
+                else
+                {
+                    // Các role khác: chỉ xem bài viết đã duyệt
+                    blogsQuery = blogsQuery.Where(b => b.Status == 1);
+                }
             }
             else
             {
-                 dacnContext = _context.TbBlogs.Include(t => t.Account).Include(t => t.Category);
+                // Nếu không tìm thấy tài khoản, trả về rỗng
+                blogsQuery = blogsQuery.Where(b => false);
             }
-            return View(await dacnContext.ToListAsync());
+
+            return View(await blogsQuery.ToListAsync());
         }
+
 
         // GET: Admin/Blogs/Details/5
         public async Task<IActionResult> Details(int? id)
@@ -87,6 +110,7 @@ namespace DACN.Areas.Admin.Controllers
             if (ModelState.IsValid)
             {
                 tbBlog.Alias = DACN.Utilities.Function.TitleSlugGenerationAlias(tbBlog.Title);
+                tbBlog.Status = 0; // 0 = Chờ duyệt
                 _context.Add(tbBlog);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
@@ -119,7 +143,7 @@ namespace DACN.Areas.Admin.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("BlogId,Title,Alias,CategoryId,Description,Detail,Image,SeoTitle,SeoDescription,SeoKeywords,CreatedDate,CreatedBy,ModifiedDate,ModifiedBy,AccountId,IsActive")] TbBlog tbBlog)
+        public async Task<IActionResult> Edit(int id, [Bind("BlogId,Title,Alias,CategoryId,Description,Detail,Image,SeoTitle,SeoDescription,SeoKeywords,CreatedDate,CreatedBy,ModifiedDate,ModifiedBy,AccountId,IsActive, Status")] TbBlog tbBlog)
         {
             if (id != tbBlog.BlogId)
             {
@@ -130,7 +154,14 @@ namespace DACN.Areas.Admin.Controllers
             {
                 try
                 {
-                    _context.Update(tbBlog);
+                    if(Function._RoleId == 2){
+                        tbBlog.Status = 0;
+                    }
+                    else
+                    {
+                        tbBlog.Status = 1;
+                    }
+                        _context.Update(tbBlog);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
@@ -190,5 +221,40 @@ namespace DACN.Areas.Admin.Controllers
         {
             return _context.TbBlogs.Any(e => e.BlogId == id);
         }
+
+        // GET: Admin/Blogs/Pending
+        public async Task<IActionResult> Pending()
+        {
+            var pendingBlogs = await _context.TbBlogs
+                .Include(b => b.Account).Include(i=>i.Category)
+                .Where(b => b.Status == 0)
+                .ToListAsync();
+            return View(pendingBlogs);
+        }
+
+        // POST: Admin/Blogs/Approve/5
+        [HttpPost]
+        public async Task<IActionResult> Approve(int id)
+        {
+            var blog = await _context.TbBlogs.FindAsync(id);
+            if (blog == null) return NotFound();
+
+            blog.Status = 1; // Đã duyệt
+            await _context.SaveChangesAsync();
+            return RedirectToAction("Pending");
+        }
+
+        // POST: Admin/Blogs/Reject/5
+        [HttpPost]
+        public async Task<IActionResult> Reject(int id)
+        {
+            var blog = await _context.TbBlogs.FindAsync(id);
+            if (blog == null) return NotFound();
+
+            blog.Status = 2; // Từ chối
+            await _context.SaveChangesAsync();
+            return RedirectToAction("Pending");
+        }
+
     }
 }

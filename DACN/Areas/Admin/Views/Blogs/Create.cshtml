@@ -1,5 +1,5 @@
 ﻿@model DACN.Models.TbBlog
-
+@using DACN.Utilities;
 @{
     ViewData["Title"] = "Create";
     Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
@@ -96,11 +96,11 @@
                                     <input asp-for="CreatedDate" class="form-control" />
                                     <span asp-validation-for="SeoKeywords" class="text-danger"></span>
                                 </div>
-                                <div class="form-group">
-                                    <label asp-for="CreatedBy" class="control-label">Người tạo</label>
-                                    <input asp-for="CreatedBy" class="form-control" />
-                                    <span asp-validation-for="SeoKeywords" class="text-danger"></span>
-                                </div>
+                                @* <div class="form-group"> *@
+                                @*     <label asp-for="CreatedBy" class="control-label">Người tạo</label> *@
+                                    <input asp-for="CreatedBy" hidden value="@Function._Username" class="form-control" />
+                                @*     <span asp-validation-for="SeoKeywords" class="text-danger"></span> *@
+                                @* </div> *@
                                 <div class="form-group form-check">
                                     <label class="form-check-label">
                                         <input class="form-check-input" asp-for="IsActive" /> Hiển thị

@@ -30,6 +30,7 @@ public partial class DacnContext : DbContext
     public virtual DbSet<TbRole> TbRoles { get; set; }
 
 
+
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.Entity<TbAccount>(entity =>

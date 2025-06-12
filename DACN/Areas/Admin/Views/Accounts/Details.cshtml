@@ -1,0 +1,43 @@
+﻿@model DACN.Models.TbAccount
+
+@{
+    ViewData["Title"] = "Chi tiết tài khoản";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+
+<div class="content-wrapper">
+    <section class="content-header">
+        <div class="container-fluid">
+            <h1>Chi tiết tài khoản</h1>
+        </div>
+    </section>
+    <section class="content">
+        <div class="container-fluid">
+            <div class="card card-primary">
+                <div class="card-header">
+                    <h3 class="card-title">@Model.FullName</h3>
+                </div>
+                <div class="card-body">
+                    <dl class="row">
+                        <dt class="col-sm-3">Tên đăng nhập</dt>
+                        <dd class="col-sm-9">@Model.Username</dd>
+                        <dt class="col-sm-3">Họ và tên</dt>
+                        <dd class="col-sm-9">@Model.FullName</dd>
+                        <dt class="col-sm-3">Email</dt>
+                        <dd class="col-sm-9">@Model.Email</dd>
+                        <dt class="col-sm-3">Số điện thoại</dt>
+                        <dd class="col-sm-9">@Model.Phone</dd>
+                        <dt class="col-sm-3">Quyền</dt>
+                        <dd class="col-sm-9">@Model.Role?.RoleName</dd>
+                        <dt class="col-sm-3">Danh mục quản lý</dt>
+                        <dd class="col-sm-9">@Model.BlogManager?.Title</dd>
+                        <dt class="col-sm-3">Hiện</dt>
+                        <dd class="col-sm-9">@Model.IsActive</dd>
+                    </dl>
+                    <a asp-action="Edit" asp-route-id="@Model.AccountId" class="btn btn-primary">Sửa</a>
+                    <a asp-action="Index" class="btn btn-secondary">Quay lại</a>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>

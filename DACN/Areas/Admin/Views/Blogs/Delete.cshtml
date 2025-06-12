@@ -54,11 +54,11 @@
                                 </div>
                                 <div class="form-group">
                                     <label for="exampleInputEmail">Chi tiết</label>
-                                    @Html.DisplayFor(model => model.Detail)
+                                    @Html.Raw(Model.Detail)
                                 </div>
                                 <div class="form-group">
                                     <label for="exampleInputEmail">Ảnh</label>
-                                    @Html.DisplayFor(model => model.Image)
+                                <img src="@Html.DisplayFor(modelItem => Model.Image)" width="200" hight="200" />
                                 </div>
                                 <div class="form-group">
                                     <label for="exampleInputEmail">Tiêu đề Seo</label>
@@ -71,22 +71,6 @@
                                 <div class="form-group">
                                     <label for="exampleInputEmail">Từ khóa Seo</label>
                                     @Html.DisplayFor(model => model.SeoKeywords)
-                                </div>
-                                <div class="form-group">
-                                    <label for="exampleInputEmail">Tiêu đề Seo</label>
-                                    @Html.DisplayFor(model => model.CreatedDate)
-                                </div>
-                                <div class="form-group">
-                                    <label for="exampleInputEmail">Tiêu đề Seo</label>
-                                    @Html.DisplayFor(model => model.CreatedBy)
-                                </div>
-                                <div class="form-group">
-                                    <label for="exampleInputEmail">Tiêu đề Seo</label>
-                                    @Html.DisplayFor(model => model.ModifiedDate)
-                                </div>
-                                <div class="form-group">
-                                    <label for="exampleInputEmail">Tiêu đề Seo</label>
-                                    @Html.DisplayFor(model => model.ModifiedBy)
                                 </div>
                                 <div class="form-group">
                                     <label for="exampleInputEmail">Hiện:</label>
